@@ -1,3 +1,5 @@
+import "./styles.css";
+
 class SideQuest {
   constructor(name, description, dueDate, priority, notes, checklist) {
     this.name = name;
