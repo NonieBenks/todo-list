@@ -5,19 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To Do list</title>
 <script defer src="bundle.js"></script></head>
-<body>
-    <div class="container">
-        <div class="content">
-            <p>Press 'n' to create new side quest</p>
+<body class="w-screen h-screen font-mono">
+    <div class="grid grid-rows-4 grid-cols-4 w-screen h-screen">
+        <div class="bg-amber-300 p-2 col-span-3 row-span-4 flex items-center text-center justify-start">
+            <div class="container inline-block">
+                <div class="typing-text">Press 'n' to create new side quest</div>
+            </div>
         </div>
-        <div class="main-quest">
-            <h3 class="text-4xl font-bold underline">Main quest</h3>
+        <div class="bg-orange-400 p-2 main-quest">
+            <h3 class="text-4xl font-bold">Main quest</h3>
             <p>Define your ultimate goal</p>
         </div>
-        <div class="side-quests">
+        <div class="p-2 side-quests bg-lime-600 row-span-4">
             <h3>Side quests</h3>
         </div>
-        <button>Add new quest</button>
+        <div class="add-quest-btn add-quest-btn col-span-4 h-16 text-left p-2 row-span-3 bg-blue-300 flex flex-row content-center">
+            <span class="flex items-center justify-center min-w-10">+</span>
+            <input type="text" placeholder="Add new quest"
+                class="bg-blue-300 w-screen border-none">
+        </div>
     </div>
     <script src="bundle.js"></script>
 </body>
