@@ -1,14 +1,9 @@
+import "./modules/side-quest";
 import "./styles.css";
 
-class SideQuest {
-  constructor(name, description, dueDate, priority, notes, checklist) {
-    this.name = name;
-    this.description = description;
-    this.dueDate = dueDate;
-    this.priority = priority;
-    this.notes = notes;
-    this.checklist = checklist;
-  }
+const btn = document.querySelector(".add-quest-btn");
 
-  buldNewQuest(name, description, dueDate, priority, notes, checklist) {}
-}
+btn.addEventListener("click", () => {
+  const newQuest = new SideQuest(name);
+  console.log(newQuest);
+});
