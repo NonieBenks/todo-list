@@ -1,4 +1,8 @@
+import { BuildHomePage } from "./modules/build-home-page";
 import "./styles.css";
+
+let homePage = new BuildHomePage();
+homePage.buildHomePage();
 
 const btn = document.querySelector(".add-quest-btn");
 
