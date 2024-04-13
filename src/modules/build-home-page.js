@@ -1,3 +1,7 @@
+import { Store } from "./store";
+
+let store = new Store();
+
 class BuildHomePage {
   constructor() {}
 
@@ -58,8 +62,31 @@ class BuildHomePage {
 
     const sideQuestTitle = document.createElement("h3");
     sideQuestTitle.classList.add("text-3xl");
-    sideQuestTitle.textContent = "Projects";
+    sideQuestTitle.textContent = "Side quests";
     sideQuestSection.appendChild(sideQuestTitle);
+
+    const sideQuestsList = document.querySelector(".side-quests");
+    let retrievedSideQuests = store.retrieveLocalStorage().projects;
+    console.log(retrievedSideQuests);
+    retrievedSideQuests.map((quest) => {
+      const newQuest = sideQuestsList.appendChild(
+        document.createElement("div")
+      );
+      newQuest.classList.add(
+        "bg-slate-200",
+        "h-auto",
+        "w-auto",
+        "rounded-lg",
+        "border-2",
+        "border-sky-300",
+        "p-3",
+        "my-3",
+        "flex",
+        "justify-left",
+        "items-center"
+      );
+      newQuest.textContent = quest.name;
+    });
 
     const addQuestSection = document.createElement("div");
     addQuestSection.classList.add(
@@ -93,7 +120,7 @@ class BuildHomePage {
       "bg-blue-300",
       "w-screen",
       "border-none",
-      "p-12"
+      "p-3"
     );
     addQuestSection.appendChild(inputElement);
   }
