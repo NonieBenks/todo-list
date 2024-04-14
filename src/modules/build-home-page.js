@@ -1,6 +1,8 @@
+import { Project } from "./project";
 import { Store } from "./store";
 
 let store = new Store();
+let project = new Project();
 
 class BuildHomePage {
   constructor() {}
@@ -18,6 +20,7 @@ class BuildHomePage {
 
     const mainSection = document.createElement("div");
     mainSection.classList.add(
+      "work-space",
       "bg-amber-300",
       "p-2",
       "col-span-3",
@@ -35,7 +38,7 @@ class BuildHomePage {
 
     const typingText = document.createElement("div");
     typingText.classList.add("typing-text");
-    typingText.textContent = "Press 'n' to create new side quest";
+    typingText.textContent = "Press 'n' to create a new project";
     container.appendChild(typingText);
 
     const mainQuestSection = document.createElement("div");
@@ -62,17 +65,18 @@ class BuildHomePage {
 
     const sideQuestTitle = document.createElement("h3");
     sideQuestTitle.classList.add("text-3xl");
-    sideQuestTitle.textContent = "Side quests";
+    sideQuestTitle.textContent = "Projects";
     sideQuestSection.appendChild(sideQuestTitle);
 
     const sideQuestsList = document.querySelector(".side-quests");
-    let retrievedSideQuests = store.retrieveLocalStorage().projects;
-    console.log(retrievedSideQuests);
-    retrievedSideQuests.map((quest) => {
+    let retrievedProjects = store.retrieveProjectsData();
+    console.log(retrievedProjects);
+    retrievedProjects.map((quest) => {
       const newQuest = sideQuestsList.appendChild(
         document.createElement("div")
       );
       newQuest.classList.add(
+        "project",
         "bg-slate-200",
         "h-auto",
         "w-auto",
@@ -85,7 +89,11 @@ class BuildHomePage {
         "justify-left",
         "items-center"
       );
-      newQuest.textContent = quest.name;
+      newQuest.addEventListener("click", () => {
+        console.log(quest);
+        project.displayProjectDetails(quest.title);
+      });
+      newQuest.textContent = quest.title;
     });
 
     const addQuestSection = document.createElement("div");
@@ -124,6 +132,8 @@ class BuildHomePage {
     );
     addQuestSection.appendChild(inputElement);
   }
+
+  buildProjectsSection() {}
 }
 
 export { BuildHomePage };
