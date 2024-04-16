@@ -13,8 +13,8 @@ const projects = document.querySelectorAll(".project");
 btn.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
     import("./modules/projects").then((Module) => {
-      const addQuest = new Module.AddQuest();
-      addQuest.buildNewProject();
+      const projects = new Module.Projects();
+      projects.buildNewProject();
     });
   }
 });

@@ -10,6 +10,7 @@ class BuildHomePage {
   buildHomePage() {
     const gridContainer = document.createElement("div");
     gridContainer.classList.add(
+      "app-container",
       "grid",
       "grid-rows-4",
       "grid-cols-4",
@@ -54,30 +55,30 @@ class BuildHomePage {
     mainQuestDescription.textContent = "Define your ultimate goal";
     mainQuestSection.appendChild(mainQuestDescription);
 
-    const sideQuestSection = document.createElement("div");
-    sideQuestSection.classList.add(
+    const projectSection = document.createElement("div");
+    projectSection.classList.add(
       "p-2",
-      "side-quests",
+      "projects",
       "bg-lime-600",
       "row-span-4"
     );
-    gridContainer.appendChild(sideQuestSection);
+    gridContainer.appendChild(projectSection);
 
-    const sideQuestTitle = document.createElement("h3");
-    sideQuestTitle.classList.add("text-3xl");
-    sideQuestTitle.textContent = "Projects";
-    sideQuestSection.appendChild(sideQuestTitle);
+    const projectTitle = document.createElement("h3");
+    projectTitle.classList.add("text-3xl");
+    projectTitle.textContent = "Projects";
+    projectSection.appendChild(projectTitle);
 
-    const sideQuestsList = document.querySelector(".side-quests");
+    const projectsList = document.querySelector(".projects");
     let retrievedProjects = store.retrieveProjectsData();
-    console.log(retrievedProjects);
-    retrievedProjects.map((quest) => {
-      const newQuest = sideQuestsList.appendChild(
+
+    retrievedProjects.map((project) => {
+      const projectItem = projectsList.appendChild(
         document.createElement("div")
       );
-      newQuest.classList.add(
+      projectItem.classList.add(
         "project",
-        "bg-slate-200",
+        "bg-sky-50",
         "h-auto",
         "w-auto",
         "rounded-lg",
@@ -89,11 +90,17 @@ class BuildHomePage {
         "justify-left",
         "items-center"
       );
-      newQuest.addEventListener("click", () => {
-        console.log(quest);
-        project.displayProjectDetails(quest.title);
-      });
-      newQuest.textContent = quest.title;
+
+      projectItem.textContent = project.title;
+      project.status
+        ? projectItem.classList.add("line-through")
+        : (projectItem.classList.remove = "line-through");
+
+      let projectCheckbox = document.createElement("input");
+      projectCheckbox.type = "checkbox";
+      projectCheckbox.checked = project.status;
+      projectCheckbox.className = "project-checkbox";
+      projectItem.prepend(projectCheckbox);
     });
 
     const addQuestSection = document.createElement("div");
@@ -108,7 +115,7 @@ class BuildHomePage {
       "flex-row",
       "content-center"
     );
-    gridContainer.appendChild(addQuestSection);
+    gridContainer.append(addQuestSection);
 
     const plusSpan = document.createElement("span");
     plusSpan.classList.add(
@@ -118,7 +125,7 @@ class BuildHomePage {
       "min-w-10"
     );
     plusSpan.textContent = "+";
-    addQuestSection.appendChild(plusSpan);
+    addQuestSection.append(plusSpan);
 
     const inputElement = document.createElement("input");
     inputElement.setAttribute("type", "text");
@@ -130,7 +137,7 @@ class BuildHomePage {
       "border-none",
       "p-3"
     );
-    addQuestSection.appendChild(inputElement);
+    addQuestSection.append(inputElement);
   }
 
   buildProjectsSection() {}

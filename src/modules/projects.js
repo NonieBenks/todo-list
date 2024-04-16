@@ -1,7 +1,9 @@
+import { Project } from "./project";
 import { Store } from "./store";
 
 let store = new Store();
-class AddQuest {
+let project = new Project();
+class Projects {
   constructor(title, tasks, status) {
     this.title = title;
     this.tasks = tasks;
@@ -9,7 +11,7 @@ class AddQuest {
   }
 
   newProjectTemplate = {
-    name: "",
+    title: "",
     status: false,
     tasks: [],
   };
@@ -24,12 +26,20 @@ class AddQuest {
   }
 
   buildNewProject() {
-    const input = document.querySelector(".add-quest-btn");
-    const sideQuestsList = document.querySelector(".side-quests");
-    const newQuest = sideQuestsList.appendChild(document.createElement("div"));
-    newQuest.classList.add(
+    const addProjectInput = document.querySelector(".add-quest-btn");
+    const projectsList = document.querySelector(".projects");
+
+    const newProject = document.createElement("div");
+    const projectRadioButton = document.createElement("input");
+
+    projectRadioButton.type = "radio";
+
+    projectsList.appendChild(newProject);
+    newProject.appendChild(projectRadioButton);
+
+    newProject.classList.add(
       "project",
-      "bg-slate-200",
+      "bg-sky-50",
       "h-auto",
       "w-auto",
       "rounded-lg",
@@ -41,13 +51,14 @@ class AddQuest {
       "justify-left",
       "items-center"
     );
-    newQuest.addEventListener("click", () => {
-      this.displayProjectDetails(input.value);
+    const projectTitle = addProjectInput.value;
+    newProject.addEventListener("click", () => {
+      project.displayProjectDetails(projectTitle);
     });
-    newQuest.textContent = input.value;
-    this.addNewProject(input.value);
-    input.value = "";
+    newProject.textContent = projectTitle;
+    this.addNewProject(projectTitle);
+    addProjectInput.value = "";
   }
 }
 
-export { AddQuest };
+export { Projects };

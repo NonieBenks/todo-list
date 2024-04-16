@@ -16,7 +16,7 @@ class Store {
         {
           title: "Family",
           tasks: [],
-          status: false,
+          status: true,
         },
         {
           title: "Build a home",

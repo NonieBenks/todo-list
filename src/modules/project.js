@@ -12,35 +12,34 @@ class Project {
     this.status = status;
   }
 
-  displayProjectDetails(
-    title,
-    description = "",
-    dueDate = "",
-    priority = "Low"
-  ) {
-    // TODO: Build project details DOM structure
-    console.log("WORKS: " + title);
+  displayProjectDetails(title, status = true, tasks) {
+    let appContainer = document.querySelector(".app-container");
     let workspace = document.querySelector(".work-space");
-    let child = workspace.querySelector(".container");
-    workspace.removeChild(child);
+    workspace.remove();
 
-    let container = document.createElement("div");
+    let workSpace = document.createElement("div");
+    let titleBlock = document.createElement("h3");
+    let statusBlock = document.createElement("h3");
 
-    [...arguments].forEach((item) => {
-      console.log(item);
-    });
+    workSpace.classList.add(
+      "work-space",
+      "col-span-3",
+      "row-span-4",
+      "w-full",
+      "bg-amber-300"
+    );
+    titleBlock.classList.add("flex", "justify-center", "m-2.5", "text-3xl");
+    statusBlock.classList.add("m-2.5", "text-2xl");
 
-    // let titleBlock = document.createElement("div");
-    // let descriptionBlock = document.createElement("div");
-    // let dueDateBlock = document.createElement("div");
-    // let priorityBlock = document.createElement("div");
+    titleBlock.textContent = title;
+    status
+      ? titleBlock.classList.add("line-through")
+      : titleBlock.classList.remove("line-through");
+    statusBlock.textContent = status ? "Done" : "In Progress";
 
-    // titleBlock.textContent = title;
-    // descriptionBlock.textContent = description;
-    // dueDateBlock.textContent = dueDate;
-    // priorityBlock.textContent = priority;
-
-    // container.appendChildren(titleBlock, descriptionBlock, dueDateBlock, priorityBlock);
+    appContainer.prepend(workSpace);
+    workSpace.append(titleBlock);
+    workSpace.append(statusBlock);
   }
 }
 export { Project };
