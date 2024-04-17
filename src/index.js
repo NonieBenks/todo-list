@@ -4,6 +4,7 @@ import "./styles.css";
 
 let store = new Store();
 let homePage = new BuildHomePage();
+let projectsList = store.retrieveProjectsData();
 
 homePage.buildHomePage();
 
@@ -14,16 +15,19 @@ btn.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
     import("./modules/projects").then((Module) => {
       const projects = new Module.Projects();
-      projects.buildNewProject();
+      projects.addNewProject(btn.value);
     });
   }
 });
 
 projects.forEach((projectItem) => {
   projectItem.addEventListener("click", () => {
+    let currentProject = projectsList.find(
+      (project) => project.title === projectItem.textContent
+    );
     import("./modules/project").then((Module) => {
       const project = new Module.Project();
-      project.displayProjectDetails(projectItem.textContent);
+      project.displayProjectDetails(currentProject);
     });
   });
 });

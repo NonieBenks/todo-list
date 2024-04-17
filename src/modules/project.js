@@ -12,7 +12,7 @@ class Project {
     this.status = status;
   }
 
-  displayProjectDetails(title, status = true, tasks) {
+  displayProjectDetails(project) {
     let appContainer = document.querySelector(".app-container");
     let workspace = document.querySelector(".work-space");
     workspace.remove();
@@ -31,11 +31,13 @@ class Project {
     titleBlock.classList.add("flex", "justify-center", "m-2.5", "text-3xl");
     statusBlock.classList.add("m-2.5", "text-2xl");
 
-    titleBlock.textContent = title;
-    status
+    titleBlock.textContent = project.title;
+    project.status
       ? titleBlock.classList.add("line-through")
       : titleBlock.classList.remove("line-through");
-    statusBlock.textContent = status ? "Done" : "In Progress";
+    statusBlock.textContent = project.status
+      ? "Status: Done"
+      : "Status: In Progress";
 
     appContainer.prepend(workSpace);
     workSpace.append(titleBlock);

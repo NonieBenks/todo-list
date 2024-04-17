@@ -22,20 +22,23 @@ class Projects {
     this.newProjectTemplate.title = title;
 
     projects.push(this.newProjectTemplate);
+    this.buildNewProject(this.newProjectTemplate);
     store.save("projects", projects);
   }
 
-  buildNewProject() {
+  buildNewProject(projectTemplate) {
     const addProjectInput = document.querySelector(".add-quest-btn");
     const projectsList = document.querySelector(".projects");
 
     const newProject = document.createElement("div");
-    const projectRadioButton = document.createElement("input");
+    const projectCheckbox = document.createElement("input");
 
-    projectRadioButton.type = "radio";
+    newProject.textContent = projectTemplate.title;
 
-    projectsList.appendChild(newProject);
-    newProject.appendChild(projectRadioButton);
+    projectCheckbox.type = "checkbox";
+
+    projectsList.append(newProject);
+    newProject.prepend(projectCheckbox);
 
     newProject.classList.add(
       "project",
@@ -51,12 +54,11 @@ class Projects {
       "justify-left",
       "items-center"
     );
-    const projectTitle = addProjectInput.value;
+    projectCheckbox.className = "project-checkbox";
+
     newProject.addEventListener("click", () => {
-      project.displayProjectDetails(projectTitle);
+      project.displayProjectDetails(projectTemplate);
     });
-    newProject.textContent = projectTitle;
-    this.addNewProject(projectTitle);
     addProjectInput.value = "";
   }
 }
