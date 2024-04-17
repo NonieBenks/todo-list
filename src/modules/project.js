@@ -1,18 +1,32 @@
-class Project {
+import { Quest } from "./quest";
+import { Store } from "./store";
+
+let store = new Store();
+
+class Project extends Quest {
   constructor(tasks, status) {
-    this.tasks = tasks;
+    super();
     this.status = status;
+    this.tasks = tasks;
   }
 
   addTask(task) {
     this.tasks.push(task);
   }
 
-  changeStatus(status) {
-    this.status = status;
+  changeStatus(updatedProject, status) {
+    let allProjects = store.retrieveProjectsData();
+
+    let currentProject = allProjects.find(
+      (project) => project.title === updatedProject.title
+    );
+    currentProject.status = status;
+
+    store.save("projects", allProjects);
+    this.displayProjectDetails(updatedProject.id);
   }
 
-  displayProjectDetails(project) {
+  displayProjectDetails(projectId) {
     let appContainer = document.querySelector(".app-container");
     let workspace = document.querySelector(".work-space");
     workspace.remove();
@@ -30,6 +44,9 @@ class Project {
     );
     titleBlock.classList.add("flex", "justify-center", "m-2.5", "text-3xl");
     statusBlock.classList.add("m-2.5", "text-2xl");
+
+    let projects = store.retrieveProjectsData();
+    let project = projects.find((project) => project.id === projectId);
 
     titleBlock.textContent = project.title;
     project.status

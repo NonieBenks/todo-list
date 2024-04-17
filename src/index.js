@@ -27,7 +27,7 @@ projects.forEach((projectItem) => {
     );
     import("./modules/project").then((Module) => {
       const project = new Module.Project();
-      project.displayProjectDetails(currentProject);
+      project.displayProjectDetails(currentProject.id);
     });
   });
 });

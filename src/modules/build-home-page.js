@@ -2,7 +2,6 @@ import { Project } from "./project";
 import { Store } from "./store";
 
 let store = new Store();
-let project = new Project();
 
 class BuildHomePage {
   constructor() {}
@@ -73,6 +72,11 @@ class BuildHomePage {
     let retrievedProjects = store.retrieveProjectsData();
 
     retrievedProjects.map((project) => {
+      let projectInstance = new Project(
+        project.title,
+        project.status,
+        project.tasks
+      );
       const projectItem = projectsList.appendChild(
         document.createElement("div")
       );
@@ -94,12 +98,26 @@ class BuildHomePage {
       projectItem.textContent = project.title;
       project.status
         ? projectItem.classList.add("line-through")
-        : (projectItem.classList.remove = "line-through");
+        : projectItem.classList.remove("line-through");
 
       let projectCheckbox = document.createElement("input");
       projectCheckbox.type = "checkbox";
       projectCheckbox.checked = project.status;
       projectCheckbox.className = "project-checkbox";
+      projectCheckbox.addEventListener("change", (event) => {
+        event.stopPropagation();
+        console.log(projectItem);
+        if (projectCheckbox.checked) {
+          project.status = true;
+          projectInstance.changeStatus(project, true);
+        } else {
+          project.status = false;
+          projectInstance.changeStatus(project, false);
+        }
+        project.status
+          ? projectItem.classList.add("line-through")
+          : projectItem.classList.remove("line-through");
+      });
       projectItem.prepend(projectCheckbox);
     });
 

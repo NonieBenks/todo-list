@@ -1,5 +1,8 @@
-class Task {
+import { Quest } from "./quest";
+
+class Task extends Quest {
   constructor(dueDate, description, priority) {
+    super();
     this.dueDate = dueDate;
     this.description = description;
     this.priority = priority;

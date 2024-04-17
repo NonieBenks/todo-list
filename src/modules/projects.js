@@ -1,28 +1,26 @@
 import { Project } from "./project";
+import { Quest } from "./quest";
 import { Store } from "./store";
 
 let store = new Store();
-let project = new Project();
-class Projects {
-  constructor(title, tasks, status) {
-    this.title = title;
-    this.tasks = tasks;
+class Projects extends Quest {
+  constructor(id, status = false, tasks = []) {
+    super();
+    this.id = id;
     this.status = status;
+    this.tasks = tasks;
   }
 
-  newProjectTemplate = {
-    title: "",
-    status: false,
-    tasks: [],
-  };
+  project = new Project(this.id, this.title, this.status, this.tasks);
 
   addNewProject(title) {
     let projects = store.retrieveProjectsData();
 
-    this.newProjectTemplate.title = title;
+    this.project.title = title;
+    this.project.id = projects.length++;
 
-    projects.push(this.newProjectTemplate);
-    this.buildNewProject(this.newProjectTemplate);
+    projects.push(this.project);
+    this.buildNewProject(this.project);
     store.save("projects", projects);
   }
 
@@ -57,8 +55,17 @@ class Projects {
     projectCheckbox.className = "project-checkbox";
 
     newProject.addEventListener("click", () => {
-      project.displayProjectDetails(projectTemplate);
+      this.project.displayProjectDetails(projectTemplate);
     });
+
+    projectCheckbox.addEventListener("change", () => {
+      if (projectCheckbox.checked) {
+        project.changeStatus(this.project, true);
+      } else {
+        project.changeStatus(this.project, false);
+      }
+    });
+
     addProjectInput.value = "";
   }
 }

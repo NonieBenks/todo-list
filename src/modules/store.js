@@ -9,16 +9,19 @@ class Store {
       console.log("Project");
       let projects = [
         {
+          id: 0,
           title: "Training",
           tasks: [],
           status: false,
         },
         {
+          id: 1,
           title: "Family",
           tasks: [],
           status: true,
         },
         {
+          id: 2,
           title: "Build a home",
           tasks: [],
           status: false,
