@@ -1,11 +1,11 @@
-import { Quest } from "./quest";
 import { Store } from "./store";
 
 let store = new Store();
 
-class Project extends Quest {
-  constructor(tasks, status) {
-    super();
+class Project {
+  constructor(id, title, status, tasks) {
+    this.id = id;
+    this.title = title;
     this.status = status;
     this.tasks = tasks;
   }

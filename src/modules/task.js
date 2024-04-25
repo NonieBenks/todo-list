@@ -1,6 +1,4 @@
-import { Quest } from "./quest";
-
-class Task extends Quest {
+class Task {
   constructor(dueDate, description, priority) {
     super();
     this.dueDate = dueDate;

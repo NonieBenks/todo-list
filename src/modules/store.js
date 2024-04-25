@@ -6,25 +6,24 @@ class Store {
 
   retrieveProjectsData() {
     if (localStorage.getItem("projects") === null) {
-      console.log("Project");
       let projects = [
         {
           id: 0,
           title: "Training",
-          tasks: [],
           status: false,
+          tasks: [],
         },
         {
           id: 1,
           title: "Family",
-          tasks: [],
           status: true,
+          tasks: [],
         },
         {
           id: 2,
           title: "Build a home",
-          tasks: [],
           status: false,
+          tasks: [],
         },
       ];
       this.save("projects", projects);

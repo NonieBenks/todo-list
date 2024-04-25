@@ -73,6 +73,7 @@ class BuildHomePage {
 
     retrievedProjects.map((project) => {
       let projectInstance = new Project(
+        project.id,
         project.title,
         project.status,
         project.tasks

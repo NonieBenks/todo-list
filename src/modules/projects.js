@@ -1,23 +1,18 @@
 import { Project } from "./project";
-import { Quest } from "./quest";
 import { Store } from "./store";
 
 let store = new Store();
-class Projects extends Quest {
-  constructor(id, status = false, tasks = []) {
-    super();
-    this.id = id;
-    this.status = status;
-    this.tasks = tasks;
-  }
-
+class Projects {
+  constructor() {}
   project = new Project(this.id, this.title, this.status, this.tasks);
 
   addNewProject(title) {
     let projects = store.retrieveProjectsData();
 
+    this.project.id = projects.length;
     this.project.title = title;
-    this.project.id = projects.length++;
+    this.project.status = false;
+    this.project.tasks = [];
 
     projects.push(this.project);
     this.buildNewProject(this.project);
@@ -55,7 +50,7 @@ class Projects extends Quest {
     projectCheckbox.className = "project-checkbox";
 
     newProject.addEventListener("click", () => {
-      this.project.displayProjectDetails(projectTemplate);
+      this.project.displayProjectDetails(projectTemplate.id);
     });
 
     projectCheckbox.addEventListener("change", () => {

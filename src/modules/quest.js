@@ -1,7 +1,8 @@
 // Parent abstract class
 
 class Quest {
-  constructor(title) {
+  constructor(id, title) {
+    this.id = id;
     this.title = title;
   }
   setTitle(title) {
