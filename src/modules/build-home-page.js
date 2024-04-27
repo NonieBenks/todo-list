@@ -18,6 +18,12 @@ class BuildHomePage {
     );
     document.body.appendChild(gridContainer);
 
+    this.buildMainSection(gridContainer);
+    this.buildMainQuestSection(gridContainer);
+    this.buildProjectsSection(gridContainer);
+    this.buildAddQuestSection(gridContainer);
+  }
+  buildMainSection(gridContainer) {
     const mainSection = document.createElement("div");
     mainSection.classList.add(
       "work-space",
@@ -40,7 +46,9 @@ class BuildHomePage {
     typingText.classList.add("typing-text");
     typingText.textContent = "Press 'n' to create a new project";
     container.appendChild(typingText);
+  }
 
+  buildMainQuestSection(gridContainer) {
     const mainQuestSection = document.createElement("div");
     mainQuestSection.classList.add("bg-orange-400", "p-2", "main-quest");
     gridContainer.appendChild(mainQuestSection);
@@ -53,75 +61,81 @@ class BuildHomePage {
     const mainQuestDescription = document.createElement("p");
     mainQuestDescription.textContent = "Define your ultimate goal";
     mainQuestSection.appendChild(mainQuestDescription);
+  }
 
-    const projectSection = document.createElement("div");
-    projectSection.classList.add(
+  buildProjectsSection(gridContainer) {
+    const projectsSection = document.createElement("div");
+    projectsSection.classList.add(
       "p-2",
       "projects",
       "bg-lime-600",
       "row-span-4"
     );
-    gridContainer.appendChild(projectSection);
+    gridContainer.appendChild(projectsSection);
 
     const projectTitle = document.createElement("h3");
     projectTitle.classList.add("text-3xl");
     projectTitle.textContent = "Projects";
-    projectSection.appendChild(projectTitle);
+    projectsSection.appendChild(projectTitle);
 
     const projectsList = document.querySelector(".projects");
     let retrievedProjects = store.retrieveProjectsData();
 
     retrievedProjects.map((project) => {
-      let projectInstance = new Project(
-        project.id,
-        project.title,
-        project.status,
-        project.tasks
-      );
-      const projectItem = projectsList.appendChild(
-        document.createElement("div")
-      );
-      projectItem.classList.add(
-        "project",
-        "bg-sky-50",
-        "h-auto",
-        "w-auto",
-        "rounded-lg",
-        "border-2",
-        "border-sky-300",
-        "p-3",
-        "my-3",
-        "flex",
-        "justify-left",
-        "items-center"
-      );
+      this.buildProjectItem(projectsList, project);
+    });
+  }
 
-      projectItem.textContent = project.title;
+  buildProjectItem(projectsList, project) {
+    let projectInstance = new Project(
+      project.id,
+      project.title,
+      project.status,
+      project.tasks
+    );
+
+    const projectItem = projectsList.appendChild(document.createElement("div"));
+    projectItem.classList.add(
+      "project",
+      "bg-sky-50",
+      "h-auto",
+      "w-auto",
+      "rounded-lg",
+      "border-2",
+      "border-sky-300",
+      "p-3",
+      "my-3",
+      "flex",
+      "justify-left",
+      "items-center"
+    );
+
+    projectItem.textContent = project.title;
+    project.status
+      ? projectItem.classList.add("line-through")
+      : projectItem.classList.remove("line-through");
+
+    let projectCheckbox = document.createElement("input");
+    projectCheckbox.type = "checkbox";
+    projectCheckbox.checked = project.status;
+    projectCheckbox.className = "project-checkbox";
+    projectCheckbox.addEventListener("change", (event) => {
+      event.stopPropagation();
+      if (projectCheckbox.checked) {
+        project.status = true;
+        projectInstance.changeStatus(project, true);
+      } else {
+        project.status = false;
+        projectInstance.changeStatus(project, false);
+      }
       project.status
         ? projectItem.classList.add("line-through")
         : projectItem.classList.remove("line-through");
-
-      let projectCheckbox = document.createElement("input");
-      projectCheckbox.type = "checkbox";
-      projectCheckbox.checked = project.status;
-      projectCheckbox.className = "project-checkbox";
-      projectCheckbox.addEventListener("change", (event) => {
-        event.stopPropagation();
-        console.log(projectItem);
-        if (projectCheckbox.checked) {
-          project.status = true;
-          projectInstance.changeStatus(project, true);
-        } else {
-          project.status = false;
-          projectInstance.changeStatus(project, false);
-        }
-        project.status
-          ? projectItem.classList.add("line-through")
-          : projectItem.classList.remove("line-through");
-      });
-      projectItem.prepend(projectCheckbox);
     });
+    projectItem.prepend(projectCheckbox);
+  }
 
+  buildAddQuestSection(gridContainer) {
     const addQuestSection = document.createElement("div");
     addQuestSection.classList.add(
       "col-span-4",
@@ -158,8 +172,6 @@ class BuildHomePage {
     );
     addQuestSection.append(inputElement);
   }
-
-  buildProjectsSection() {}
 }
 
 export { BuildHomePage };

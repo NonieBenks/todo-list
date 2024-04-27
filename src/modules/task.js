@@ -1,11 +1,16 @@
-class Task {
-  constructor(dueDate, description, priority) {
-    super();
-    this.dueDate = dueDate;
-    this.description = description;
-    this.priority = priority;
-  }
+import { Store } from "./store";
 
+const store = new Store();
+class Task {
+  constructor() {}
+
+  createNewTask(task) {
+    const retrievedProjects = store.retrieveProjectsData();
+    const currentProject = retrievedProjects.find(
+      (project) => project.id === this.id
+    );
+    console.log(currentProject);
+  }
   setDueDate(dueDate) {
     this.dueDate = dueDate;
   }

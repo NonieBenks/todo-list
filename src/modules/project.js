@@ -10,10 +10,6 @@ class Project {
     this.tasks = tasks;
   }
 
-  addTask(task) {
-    this.tasks.push(task);
-  }
-
   changeStatus(updatedProject, status) {
     let allProjects = store.retrieveProjectsData();
 
