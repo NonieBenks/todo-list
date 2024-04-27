@@ -28,26 +28,21 @@ projects.forEach((projectItem) => {
     import("./modules/project").then((Module) => {
       const project = new Module.Project();
       project.displayProjectDetails(currentProject.id);
+      window.addEventListener("keypress", (event) => {
+        event.stopPropagation();
+        const newTask = {
+          id: "",
+          title: "",
+          description: "",
+          priority: "",
+          status: false,
+          date: new Date(),
+        };
+        if (event.key === "n") {
+          project.createNewTask(newTask, currentProject);
+          console.log(newTask);
+        }
+      });
     });
   });
-});
-
-// TODO: Pressing 'n' inside home page creates a new project
-// TODO: Pressing 'n' inside project page creates a new task
-// TODO: Query parameters for checking which page/project we are on.
-window.addEventListener("keypress", (event) => {
-  const newTask = {
-    id: "",
-    name: "",
-    priority: "",
-    status: false,
-    date: new Date(),
-  };
-  if (event.key === "n") {
-    import("./modules/task").then((Module) => {
-      const task = new Module.Task();
-      task.createNewTask(newTask);
-      console.log(newTask);
-    });
-  }
 });

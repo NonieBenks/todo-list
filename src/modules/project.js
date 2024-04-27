@@ -1,6 +1,8 @@
 import { Store } from "./store";
+import { Task } from "./task";
 
 let store = new Store();
+let taskModule = new Task();
 
 class Project {
   constructor(id, title, status, tasks) {
@@ -8,6 +10,17 @@ class Project {
     this.title = title;
     this.status = status;
     this.tasks = tasks;
+  }
+
+  createNewTask(task, openedProject) {
+    const retrievedProjects = store.retrieveProjectsData();
+    const currentProject = retrievedProjects.find(
+      (project) => project.id === openedProject.id
+    );
+
+    currentProject.tasks.push(task);
+    store.save("projects", retrievedProjects);
+    taskModule.displayTaskDetails(task, currentProject);
   }
 
   changeStatus(updatedProject, status) {
