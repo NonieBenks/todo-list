@@ -1,10 +1,10 @@
 import { BuildHomePage } from "./modules/build-home-page";
-import { Store } from "./modules/store";
+import { StorageManager } from "./modules/storage-manager";
 import "./styles.css";
 
-let store = new Store();
-let homePage = new BuildHomePage();
-let projectsList = store.retrieveProjectsData();
+const storage = new StorageManager();
+const homePage = new BuildHomePage();
+const projectsList = storage.retrieveProjectsData();
 
 homePage.buildHomePage();
 
@@ -21,28 +21,35 @@ btn.addEventListener("keypress", (event) => {
 });
 
 projects.forEach((projectItem) => {
-  projectItem.addEventListener("click", () => {
-    let currentProject = projectsList.find(
-      (project) => project.title === projectItem.textContent
-    );
-    import("./modules/project").then((Module) => {
-      const project = new Module.Project();
-      project.displayProjectDetails(currentProject.id);
-      window.addEventListener("keypress", (event) => {
-        event.stopPropagation();
-        const newTask = {
-          id: "",
-          title: "",
-          description: "",
-          priority: "",
-          status: false,
-          date: new Date(),
-        };
-        if (event.key === "n") {
-          project.createNewTask(newTask, currentProject);
-          console.log(newTask);
-        }
-      });
+  projectItem.addEventListener("click", () =>
+    prepareCurrentProject(projectsList, projectItem)
+  );
+});
+
+function prepareCurrentProject(projectsList, projectItem) {
+  let currentProject = projectsList.find(
+    (project) => project.title === projectItem.textContent
+  );
+
+  import("./modules/project").then((Module) => {
+    const project = new Module.Project();
+
+    project.displayProjectDetails(currentProject.id);
+    const containerBlock = document.querySelector(".project-details");
+    containerBlock.setAttribute("tabindex", "0");
+    containerBlock.addEventListener("keypress", (event) => {
+      const newTask = {
+        id: "",
+        title: "",
+        description: "",
+        priority: "Low",
+        status: false,
+        date: new Date(),
+      };
+      if (event.key === "n") {
+        project.createNewTask(newTask, currentProject);
+        console.log(newTask);
+      }
     });
   });
-});
+}

@@ -1,7 +1,7 @@
 import { Project } from "./project";
-import { Store } from "./store";
+import { StorageManager } from "./storage-manager";
 
-let store = new Store();
+const storage = new StorageManager();
 
 class BuildHomePage {
   constructor() {}
@@ -79,7 +79,7 @@ class BuildHomePage {
     projectsSection.appendChild(projectTitle);
 
     const projectsList = document.querySelector(".projects");
-    let retrievedProjects = store.retrieveProjectsData();
+    let retrievedProjects = storage.retrieveProjectsData();
 
     retrievedProjects.map((project) => {
       this.buildProjectItem(projectsList, project);

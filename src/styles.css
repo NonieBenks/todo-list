@@ -26,6 +26,10 @@
   }
 }
 
+.project-details {
+  grid-template-rows: max-content max-content 1fr;
+}
+
 @keyframes typing {
     0% { width: 0;}
     99.99% { border-right: .15em solid orange;}

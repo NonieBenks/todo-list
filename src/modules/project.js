@@ -1,7 +1,7 @@
-import { Store } from "./store";
+import { StorageManager } from "./storage-manager";
 import { Task } from "./task";
 
-let store = new Store();
+const storage = new StorageManager();
 let taskModule = new Task();
 
 class Project {
@@ -13,25 +13,25 @@ class Project {
   }
 
   createNewTask(task, openedProject) {
-    const retrievedProjects = store.retrieveProjectsData();
+    const retrievedProjects = storage.retrieveProjectsData();
     const currentProject = retrievedProjects.find(
       (project) => project.id === openedProject.id
     );
 
     currentProject.tasks.push(task);
-    store.save("projects", retrievedProjects);
+    storage.save("projects", retrievedProjects);
     taskModule.displayTaskDetails(task, currentProject);
   }
 
   changeStatus(updatedProject, status) {
-    let allProjects = store.retrieveProjectsData();
+    let allProjects = storage.retrieveProjectsData();
 
     let currentProject = allProjects.find(
       (project) => project.title === updatedProject.title
     );
     currentProject.status = status;
 
-    store.save("projects", allProjects);
+    storage.save("projects", allProjects);
     this.displayProjectDetails(updatedProject.id);
   }
 
@@ -43,18 +43,32 @@ class Project {
     let workSpace = document.createElement("div");
     let titleBlock = document.createElement("h3");
     let statusBlock = document.createElement("h3");
+    let tasksBlock = document.createElement("div");
 
     workSpace.classList.add(
+      "project-details",
       "work-space",
       "col-span-3",
       "row-span-4",
       "w-full",
-      "bg-amber-300"
+      "bg-amber-300",
+      "grid"
     );
     titleBlock.classList.add("flex", "justify-center", "m-2.5", "text-3xl");
     statusBlock.classList.add("m-2.5", "text-2xl");
+    tasksBlock.classList.add(
+      "tasks-container",
+      "grid",
+      "grid-cols-2",
+      "w-full",
+      "justify-items-center",
+      "flex-wrap",
+      "gap-5",
+      "overflow-y-scroll",
+      "scroll-smooth"
+    );
 
-    let projects = store.retrieveProjectsData();
+    let projects = storage.retrieveProjectsData();
     let project = projects.find((project) => project.id === projectId);
 
     titleBlock.textContent = project.title;
@@ -68,6 +82,11 @@ class Project {
     appContainer.prepend(workSpace);
     workSpace.append(titleBlock);
     workSpace.append(statusBlock);
+    workSpace.append(tasksBlock);
+
+    project.tasks.forEach((task) => {
+      taskModule.displayTaskItem(task);
+    });
   }
 }
 export { Project };

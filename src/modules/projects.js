@@ -1,13 +1,13 @@
 import { Project } from "./project";
-import { Store } from "./store";
+import { StorageManager } from "./storage-manager";
 
-let store = new Store();
+const storage = new StorageManager();
 class Projects {
   constructor() {}
   project = new Project(this.id, this.title, this.status, this.tasks);
 
   addNewProject(title) {
-    let projects = store.retrieveProjectsData();
+    let projects = storage.retrieveProjectsData();
 
     this.project.id = projects.length;
     this.project.title = title;
@@ -16,7 +16,7 @@ class Projects {
 
     projects.push(this.project);
     this.buildNewProject(this.project);
-    store.save("projects", projects);
+    storage.save("projects", projects);
   }
 
   buildNewProject(projectTemplate) {

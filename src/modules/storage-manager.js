@@ -1,4 +1,4 @@
-class Store {
+class StorageManager {
   constructor() {}
   save(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
@@ -58,4 +58,4 @@ class Store {
     }
   }
 }
-export { Store };
+export { StorageManager };
