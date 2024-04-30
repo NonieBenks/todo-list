@@ -78,23 +78,44 @@ class Task {
       const blockDiv = document.createElement("div");
       blockDiv.id = reference;
 
-      const labelH3 = document.createElement("h3");
-      labelH3.textContent = label;
+      const labelField = document.createElement("h3");
+      labelField.textContent = label;
 
-      const valueH3 = document.createElement("h3");
-      valueH3.contentEditable = true;
-      valueH3.textContent = defaultValue;
+      let valueField;
 
-      valueH3.addEventListener("keydown", function (event) {
+      switch (reference) {
+        case "dueDate":
+          valueField = document.createElement("input");
+          valueField.type = "date";
+          break;
+        case "priority":
+          const selectElement = document.createElement("select");
+          const optionValues = ["Low", "Medium", "High"];
+
+          optionValues.forEach((value) => {
+            const optionElement = document.createElement("option");
+            optionElement.value = value.toLowerCase();
+            optionElement.textContent = value;
+            selectElement.appendChild(optionElement);
+          });
+          valueField = selectElement;
+          break;
+        default:
+          valueField = document.createElement("input");
+      }
+
+      valueField.value = defaultValue;
+
+      valueField.addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
           event.preventDefault();
           this.blur();
         }
       });
 
-      valueH3.addEventListener("blur", function () {
-        const editedValue = this.textContent.trim();
-        const currentElement = valueH3.parentElement.id;
+      valueField.addEventListener("blur", function () {
+        const editedValue = this.value.trim();
+        const currentElement = valueField.parentElement.id;
         const retrievedProjects = storage.retrieveProjectsData();
 
         const ourProject = retrievedProjects.find(
@@ -107,8 +128,8 @@ class Task {
         storage.save("projects", retrievedProjects);
       });
 
-      blockDiv.appendChild(labelH3);
-      blockDiv.appendChild(valueH3);
+      blockDiv.appendChild(labelField);
+      blockDiv.appendChild(valueField);
 
       return blockDiv;
     }
