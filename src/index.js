@@ -39,9 +39,9 @@ function prepareCurrentProject(projectsList, projectItem) {
     containerBlock.setAttribute("tabindex", "0");
     containerBlock.addEventListener("keypress", (event) => {
       const newTask = {
-        id: "",
+        id: 0,
         title: "",
-        description: "",
+        description: "Change task description",
         priority: "Low",
         status: false,
         date: new Date(),

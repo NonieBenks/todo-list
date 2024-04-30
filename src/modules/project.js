@@ -18,6 +18,9 @@ class Project {
       (project) => project.id === openedProject.id
     );
 
+    task.id = currentProject.tasks.length;
+    task.title = `Task${currentProject.tasks.length}`;
+
     currentProject.tasks.push(task);
     storage.save("projects", retrievedProjects);
     taskModule.displayTaskDetails(task, currentProject);
@@ -85,7 +88,7 @@ class Project {
     workSpace.append(tasksBlock);
 
     project.tasks.forEach((task) => {
-      taskModule.displayTaskItem(task);
+      taskModule.displayTaskCard(task, project);
     });
   }
 }
