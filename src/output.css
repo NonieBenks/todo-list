@@ -951,6 +951,12 @@ video {
   grid-template-rows: max-content max-content 1fr;
 }
 
+#description {
+  display: grid;
+  grid-template-rows: 1fr 3fr;
+  gap: 5px;
+}
+
 @keyframes typing {
   0% {
     width: 0;

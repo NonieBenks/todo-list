@@ -44,7 +44,7 @@ class BuildHomePage {
 
     const typingText = document.createElement("div");
     typingText.classList.add("typing-text");
-    typingText.textContent = "Press 'n' to create a new project";
+    typingText.textContent = "Create a new project below";
     container.appendChild(typingText);
   }
 

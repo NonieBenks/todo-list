@@ -1,11 +1,14 @@
 import { BuildHomePage } from "./modules/build-home-page";
 import { StorageManager } from "./modules/storage-manager";
+import { Utils } from "./modules/utils";
 import "./styles.css";
 
 const storage = new StorageManager();
 const homePage = new BuildHomePage();
+const utils = new Utils();
 const projectsList = storage.retrieveProjectsData();
 
+utils.clearQueryParams();
 homePage.buildHomePage();
 
 const btn = document.querySelector(".add-quest-btn");
@@ -37,7 +40,8 @@ function prepareCurrentProject(projectsList, projectItem) {
     project.displayProjectDetails(currentProject.id);
     const containerBlock = document.querySelector(".project-details");
     containerBlock.setAttribute("tabindex", "0");
-    containerBlock.addEventListener("keypress", (event) => {
+    document.addEventListener("keypress", (event) => {
+      const currentPage = utils.getCurrentPage();
       const newTask = {
         id: 0,
         title: "",
@@ -46,9 +50,8 @@ function prepareCurrentProject(projectsList, projectItem) {
         status: false,
         date: new Date(),
       };
-      if (event.key === "n") {
+      if (event.key === "n" && currentPage === "project") {
         project.createNewTask(newTask, currentProject);
-        console.log(newTask);
       }
     });
   });

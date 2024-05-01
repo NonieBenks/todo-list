@@ -1,31 +1,10 @@
 import { StorageManager } from "./storage-manager";
+import { Utils } from "./utils";
 
 const storage = new StorageManager();
+const utils = new Utils();
 class Task {
   constructor() {}
-
-  setTitle(projectId, taskId, title) {
-    const retrievedProjects = storage.retrieveProjectsData();
-    const currentProject = retrievedProjects.find(
-      (project) => project.id === projectId
-    );
-    const currentTask = currentProject.tasks.find((task) => task.id === taskId);
-    currentTask.title = title;
-    console.log(retrievedProjects);
-    storage.save("projects", retrievedProjects);
-  }
-
-  setDueDate(dueDate) {
-    this.dueDate = dueDate;
-  }
-
-  setDescription(description) {
-    this.description = description;
-  }
-
-  setPriority(priority) {
-    this.priority = priority;
-  }
 
   displayTaskDetails(currentTask, currentProject) {
     let appContainer = document.querySelector(".app-container");
@@ -100,9 +79,13 @@ class Task {
           });
           valueField = selectElement;
           break;
+        case "description":
+          valueField = document.createElement("textarea");
+          break;
         default:
           valueField = document.createElement("input");
       }
+      valueField.className = "bg-amber-300";
 
       valueField.value = defaultValue;
 
@@ -137,9 +120,9 @@ class Task {
     appContainer.prepend(newWorkSpace);
     newWorkSpace.append(tasks);
     tasks.append(titleBlock);
-    tasks.append(descriptionBlock);
     tasks.append(dueDateBlock);
     tasks.append(priorityBlock);
+    tasks.append(descriptionBlock);
 
     let tasksElements = tasks.children;
     for (let i = 0; i < tasksElements.length; i++) {
@@ -161,6 +144,7 @@ class Task {
     );
 
     taskCard.addEventListener("click", () => {
+      utils.goToUrl("page", "task");
       this.displayTaskDetails(task, project);
     });
 

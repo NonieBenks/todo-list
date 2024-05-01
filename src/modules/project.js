@@ -1,8 +1,10 @@
 import { StorageManager } from "./storage-manager";
 import { Task } from "./task";
+import { Utils } from "./utils";
 
 const storage = new StorageManager();
-let taskModule = new Task();
+const taskModule = new Task();
+const utils = new Utils();
 
 class Project {
   constructor(id, title, status, tasks) {
@@ -22,6 +24,7 @@ class Project {
     task.title = `Task${currentProject.tasks.length}`;
 
     currentProject.tasks.push(task);
+    utils.goToUrl("page", "task");
     storage.save("projects", retrievedProjects);
     taskModule.displayTaskDetails(task, currentProject);
   }
@@ -81,6 +84,25 @@ class Project {
     statusBlock.textContent = project.status
       ? "Status: Done"
       : "Status: In Progress";
+
+    const currentPage = utils.getCurrentPage();
+
+    appContainer.addEventListener("keypress", (event) => {
+      const newTask = {
+        id: 0,
+        title: "",
+        description: "Change task description",
+        priority: "Low",
+        status: false,
+        date: new Date(),
+      };
+      utils.goToUrl("page", "task");
+      if (event.key === "n" && currentPage === "project") {
+        this.createNewTask(newTask, project);
+      }
+    });
+
+    utils.goToUrl("page", "project");
 
     appContainer.prepend(workSpace);
     workSpace.append(titleBlock);

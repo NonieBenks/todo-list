@@ -30,7 +30,6 @@ class StorageManager {
       return projects;
     } else {
       let projects = JSON.parse(localStorage.getItem("projects"));
-      console.log(projects);
       return projects;
     }
   }
@@ -53,7 +52,6 @@ class StorageManager {
       return mainQuest;
     } else {
       let mainQuest = JSON.parse(localStorage.getItem("mainQuest"));
-      console.log(mainQuest);
       return mainQuest;
     }
   }
