@@ -11,6 +11,11 @@ class Utils {
     return queryParams.get("page");
   }
 
+  getCurrentProjectId() {
+    const queryParams = new URLSearchParams(window.location.search);
+    return parseInt(queryParams.get("project-id"));
+  }
+
   clearQueryParams() {
     const urlObj = new URL(window.location);
     urlObj.search = "";

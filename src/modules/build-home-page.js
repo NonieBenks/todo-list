@@ -33,7 +33,7 @@ class BuildHomePage {
       "row-span-4",
       "flex",
       "items-center",
-      "text-center",
+      "text-left",
       "justify-start"
     );
     gridContainer.appendChild(mainSection);
@@ -42,10 +42,15 @@ class BuildHomePage {
     container.classList.add("container", "inline-block");
     mainSection.appendChild(container);
 
-    const typingText = document.createElement("div");
-    typingText.classList.add("typing-text");
-    typingText.textContent = "Create a new project below";
-    container.appendChild(typingText);
+    const typingFirstLine = document.createElement("div");
+    typingFirstLine.textContent = "Create a new project below";
+    container.appendChild(typingFirstLine);
+
+    const typingSecondLine = document.createElement("div");
+    typingSecondLine.classList.add("typing-text");
+    typingSecondLine.textContent =
+      "Press 'n' inside a project to create a task";
+    container.appendChild(typingSecondLine);
   }
 
   buildMainQuestSection(gridContainer) {
@@ -109,6 +114,7 @@ class BuildHomePage {
       "justify-left",
       "items-center"
     );
+    projectItem.setAttribute("project-id", project.id);
 
     projectItem.textContent = project.title;
     project.status

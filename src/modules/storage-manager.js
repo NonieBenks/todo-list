@@ -2,6 +2,7 @@ class StorageManager {
   constructor() {}
   save(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
+    console.log(JSON.parse(localStorage.getItem(key)));
   }
 
   retrieveProjectsData() {

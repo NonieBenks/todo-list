@@ -33,12 +33,12 @@ class Project {
     let allProjects = storage.retrieveProjectsData();
 
     let currentProject = allProjects.find(
-      (project) => project.title === updatedProject.title
+      (project) => project.id === updatedProject.id
     );
     currentProject.status = status;
 
     storage.save("projects", allProjects);
-    this.displayProjectDetails(updatedProject.id);
+    this.displayProjectDetails(currentProject.id);
   }
 
   displayProjectDetails(projectId) {
@@ -75,7 +75,7 @@ class Project {
     );
 
     let projects = storage.retrieveProjectsData();
-    let project = projects.find((project) => project.id === projectId);
+    let project = projects.find((projectItem) => projectItem.id === projectId);
 
     titleBlock.textContent = project.title;
     project.status
@@ -84,25 +84,27 @@ class Project {
     statusBlock.textContent = project.status
       ? "Status: Done"
       : "Status: In Progress";
+    utils.goToUrl("page", "project");
+    utils.goToUrl("project-id", project.id);
 
-    const currentPage = utils.getCurrentPage();
-
-    appContainer.addEventListener("keypress", (event) => {
+    document.addEventListener("keypress", (event) => {
+      const currentPage = utils.getCurrentPage();
+      const currentProjectId = utils.getCurrentProjectId();
+      const currentProject = projects.find(
+        (project) => project.id === currentProjectId
+      );
       const newTask = {
         id: 0,
         title: "",
         description: "Change task description",
-        priority: "Low",
+        priority: "low",
         status: false,
         date: new Date(),
       };
-      utils.goToUrl("page", "task");
       if (event.key === "n" && currentPage === "project") {
-        this.createNewTask(newTask, project);
+        this.createNewTask(newTask, currentProject);
       }
     });
-
-    utils.goToUrl("page", "project");
 
     appContainer.prepend(workSpace);
     workSpace.append(titleBlock);

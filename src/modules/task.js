@@ -69,11 +69,10 @@ class Task {
           break;
         case "priority":
           const selectElement = document.createElement("select");
-          const optionValues = ["Low", "Medium", "High"];
+          const optionValues = ["low", "medium", "high"];
 
-          optionValues.forEach((value) => {
+          optionValues.map((value) => {
             const optionElement = document.createElement("option");
-            optionElement.value = value.toLowerCase();
             optionElement.textContent = value;
             selectElement.appendChild(optionElement);
           });
@@ -85,8 +84,8 @@ class Task {
         default:
           valueField = document.createElement("input");
       }
-      valueField.className = "bg-amber-300";
 
+      valueField.className = "bg-amber-300";
       valueField.value = defaultValue;
 
       valueField.addEventListener("keydown", function (event) {
@@ -134,14 +133,20 @@ class Task {
   displayTaskCard(task, project) {
     let tasksContainer = document.querySelector(".tasks-container");
     let taskCard = document.createElement("div");
-    taskCard.classList.add(
-      "task-card",
-      "h-40",
-      "w-64",
-      "bg-red-600",
-      "text-xl",
-      "p-3"
-    );
+    taskCard.classList.add("task-card", "h-40", "w-64", "text-xl", "p-3");
+    switch (task.priority) {
+      case "low":
+        taskCard.classList.add("bg-lime-600");
+        break;
+      case "medium":
+        taskCard.classList.add("bg-orange-400");
+        break;
+      case "high":
+        taskCard.classList.add("bg-rose-600");
+        break;
+      default:
+        taskCard.classList.add("bg-white");
+    }
 
     taskCard.addEventListener("click", () => {
       utils.goToUrl("page", "task");

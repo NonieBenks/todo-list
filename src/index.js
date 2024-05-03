@@ -24,14 +24,15 @@ btn.addEventListener("keypress", (event) => {
 });
 
 projects.forEach((projectItem) => {
-  projectItem.addEventListener("click", () =>
-    prepareCurrentProject(projectsList, projectItem)
-  );
+  projectItem.addEventListener("click", () => {
+    prepareCurrentProject(projectsList, projectItem);
+  });
 });
 
 function prepareCurrentProject(projectsList, projectItem) {
   let currentProject = projectsList.find(
-    (project) => project.title === projectItem.textContent
+    (project) =>
+      project.id.toString() === projectItem.getAttribute("project-id")
   );
 
   import("./modules/project").then((Module) => {
@@ -46,7 +47,7 @@ function prepareCurrentProject(projectsList, projectItem) {
         id: 0,
         title: "",
         description: "Change task description",
-        priority: "Low",
+        priority: "low",
         status: false,
         date: new Date(),
       };
