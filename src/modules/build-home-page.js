@@ -170,7 +170,7 @@ class BuildHomePage {
     inputElement.setAttribute("type", "text");
     inputElement.setAttribute("placeholder", "Add new project");
     inputElement.classList.add(
-      "add-quest-btn",
+      "add-project-btn",
       "bg-blue-300",
       "w-screen",
       "border-none",

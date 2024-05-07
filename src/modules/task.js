@@ -6,6 +6,21 @@ const utils = new Utils();
 class Task {
   constructor() {}
 
+  createNewTask(task, openedProject) {
+    const retrievedProjects = storage.retrieveProjectsData();
+    const currentProject = retrievedProjects.find(
+      (project) => project.id === openedProject.id
+    );
+
+    task.id = currentProject.tasks.length;
+    task.title = `Task${currentProject.tasks.length}`;
+
+    currentProject.tasks.push(task);
+    utils.goToUrl("page", "task");
+    storage.save("projects", retrievedProjects);
+    this.displayTaskDetails(task, currentProject);
+  }
+
   displayTaskDetails(currentTask, currentProject) {
     let appContainer = document.querySelector(".app-container");
     let workSpace = document.querySelector(".work-space");

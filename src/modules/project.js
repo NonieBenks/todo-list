@@ -14,21 +14,6 @@ class Project {
     this.tasks = tasks;
   }
 
-  createNewTask(task, openedProject) {
-    const retrievedProjects = storage.retrieveProjectsData();
-    const currentProject = retrievedProjects.find(
-      (project) => project.id === openedProject.id
-    );
-
-    task.id = currentProject.tasks.length;
-    task.title = `Task${currentProject.tasks.length}`;
-
-    currentProject.tasks.push(task);
-    utils.goToUrl("page", "task");
-    storage.save("projects", retrievedProjects);
-    taskModule.displayTaskDetails(task, currentProject);
-  }
-
   changeStatus(updatedProject, status) {
     let allProjects = storage.retrieveProjectsData();
 
@@ -102,7 +87,7 @@ class Project {
         date: new Date(),
       };
       if (event.key === "n" && currentPage === "project") {
-        this.createNewTask(newTask, currentProject);
+        taskModule.createNewTask(newTask, currentProject);
       }
     });
 

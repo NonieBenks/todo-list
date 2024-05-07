@@ -6,8 +6,8 @@ class Projects {
   constructor() {}
   project = new Project(this.id, this.title, this.status, this.tasks);
 
-  addNewProject(title) {
-    let projects = storage.retrieveProjectsData();
+  createNewProject(title) {
+    const projects = storage.retrieveProjectsData();
 
     this.project.id = projects.length;
     this.project.title = title;
@@ -15,12 +15,12 @@ class Projects {
     this.project.tasks = [];
 
     projects.push(this.project);
-    this.buildNewProject(this.project);
     storage.save("projects", projects);
+    this.buildNewProject(this.project);
   }
 
   buildNewProject(projectTemplate) {
-    const addProjectInput = document.querySelector(".add-quest-btn");
+    const addProjectInput = document.querySelector(".add-project-btn");
     const projectsList = document.querySelector(".projects");
 
     const newProject = document.createElement("div");
@@ -55,9 +55,9 @@ class Projects {
 
     projectCheckbox.addEventListener("change", () => {
       if (projectCheckbox.checked) {
-        project.changeStatus(this.project, true);
+        this.project.changeStatus(this.project, true);
       } else {
-        project.changeStatus(this.project, false);
+        this.project.changeStatus(this.project, false);
       }
     });
 

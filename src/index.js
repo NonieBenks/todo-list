@@ -1,24 +1,27 @@
 import { BuildHomePage } from "./modules/build-home-page";
 import { StorageManager } from "./modules/storage-manager";
+import { Task } from "./modules/task";
 import { Utils } from "./modules/utils";
 import "./styles.css";
 
-const storage = new StorageManager();
-const homePage = new BuildHomePage();
-const utils = new Utils();
-const projectsList = storage.retrieveProjectsData();
+const storageModule = new StorageManager();
+const homePageModule = new BuildHomePage();
+const taskModule = new Task();
+const utilsModule = new Utils();
 
-utils.clearQueryParams();
-homePage.buildHomePage();
+const projectsList = storageModule.retrieveProjectsData();
 
-const btn = document.querySelector(".add-quest-btn");
+utilsModule.clearQueryParams();
+homePageModule.buildHomePage();
+
+const btn = document.querySelector(".add-project-btn");
 const projects = document.querySelectorAll(".project");
 
 btn.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
     import("./modules/projects").then((Module) => {
       const projects = new Module.Projects();
-      projects.addNewProject(btn.value);
+      projects.createNewProject(btn.value);
     });
   }
 });
@@ -42,7 +45,7 @@ function prepareCurrentProject(projectsList, projectItem) {
     const containerBlock = document.querySelector(".project-details");
     containerBlock.setAttribute("tabindex", "0");
     document.addEventListener("keypress", (event) => {
-      const currentPage = utils.getCurrentPage();
+      const currentPage = utilsModule.getCurrentPage();
       const newTask = {
         id: 0,
         title: "",
@@ -52,7 +55,7 @@ function prepareCurrentProject(projectsList, projectItem) {
         date: new Date(),
       };
       if (event.key === "n" && currentPage === "project") {
-        project.createNewTask(newTask, currentProject);
+        taskModule.createNewTask(newTask, currentProject);
       }
     });
   });
