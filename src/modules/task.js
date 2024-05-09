@@ -1,3 +1,4 @@
+import deleteSvg from "../assets/delete.svg";
 import { StorageManager } from "./storage-manager";
 import { Utils } from "./utils";
 
@@ -169,13 +170,44 @@ class Task {
     });
 
     let taskTitle = document.createElement("h3");
+    taskTitle.classList.add("flex");
     taskTitle.textContent = task.title;
+    let deleteButton = document.createElement("img");
+    deleteButton.classList.add("ml-auto");
+    deleteButton.src = deleteSvg;
     let taskDueDate = document.createElement("h3");
     taskDueDate.textContent = task.dueDate;
 
+    deleteButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const result = confirm("Are you sure you want to delete this task?");
+      if (result) {
+        this.deleteTask(task, project);
+        taskCard.remove();
+      }
+    });
+
     taskCard.appendChild(taskTitle);
+    taskTitle.appendChild(deleteButton);
     taskCard.appendChild(taskDueDate);
     tasksContainer.appendChild(taskCard);
+  }
+
+  deleteTask(taskToDelete, parentProject) {
+    let allProjects = storage.retrieveProjectsData();
+
+    let currentProject = allProjects.find(
+      (project) => project.id === parentProject.id
+    );
+
+    let currentTask = currentProject.tasks.find(
+      (task) => task.id === taskToDelete.id
+    );
+
+    let allTasks = currentProject.tasks;
+    allTasks.splice(allTasks.indexOf(currentTask), 1);
+
+    storage.save("projects", allProjects);
   }
 }
 

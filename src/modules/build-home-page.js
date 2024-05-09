@@ -146,7 +146,7 @@ class BuildHomePage {
     projectItem.prepend(projectCheckbox);
 
     let deleteButton = document.createElement("img");
-    deleteButton.setAttribute("src", deleteSvg);
+    deleteButton.src = deleteSvg;
     deleteButton.classList.add(
       "delete-button",
       "material-symbols-outlined",
