@@ -1,8 +1,9 @@
+import deleteSvg from "../assets/delete.svg";
 import { Project } from "./project";
 import { StorageManager } from "./storage-manager";
 
 const storage = new StorageManager();
-
+const projectModule = new Project();
 class BuildHomePage {
   constructor() {}
 
@@ -28,7 +29,7 @@ class BuildHomePage {
     mainSection.classList.add(
       "work-space",
       "bg-amber-300",
-      "p-2",
+      "p-3",
       "col-span-3",
       "row-span-4",
       "flex",
@@ -55,7 +56,7 @@ class BuildHomePage {
 
   buildMainQuestSection(gridContainer) {
     const mainQuestSection = document.createElement("div");
-    mainQuestSection.classList.add("bg-orange-400", "p-2", "main-quest");
+    mainQuestSection.classList.add("bg-orange-400", "p-3", "main-quest");
     gridContainer.appendChild(mainQuestSection);
 
     const mainQuestTitle = document.createElement("h3");
@@ -71,7 +72,7 @@ class BuildHomePage {
   buildProjectsSection(gridContainer) {
     const projectsSection = document.createElement("div");
     projectsSection.classList.add(
-      "p-2",
+      "p-3",
       "projects",
       "bg-lime-600",
       "row-span-4"
@@ -121,6 +122,10 @@ class BuildHomePage {
       ? projectItem.classList.add("line-through")
       : projectItem.classList.remove("line-through");
 
+    projectItem.addEventListener("click", () => {
+      projectModule.displayProjectDetails(project.id);
+    });
+
     let projectCheckbox = document.createElement("input");
     projectCheckbox.type = "checkbox";
     projectCheckbox.checked = project.status;
@@ -139,6 +144,26 @@ class BuildHomePage {
         : projectItem.classList.remove("line-through");
     });
     projectItem.prepend(projectCheckbox);
+
+    let deleteButton = document.createElement("img");
+    deleteButton.setAttribute("src", deleteSvg);
+    deleteButton.classList.add(
+      "delete-button",
+      "material-symbols-outlined",
+      "ml-auto"
+    );
+    deleteButton.textContent = "delete";
+
+    deleteButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const result = confirm("Are you sure you want to delete this project?");
+      if (result) {
+        projectInstance.deleteProject(project);
+        projectItem.remove();
+      }
+    });
+
+    projectItem.append(deleteButton);
   }
 
   buildAddQuestSection(gridContainer) {
@@ -147,7 +172,7 @@ class BuildHomePage {
       "col-span-4",
       "h-16",
       "text-left",
-      "p-2",
+      "p-3",
       "row-span-3",
       "bg-blue-300",
       "flex",

@@ -26,6 +26,18 @@ class Project {
     this.displayProjectDetails(currentProject.id);
   }
 
+  deleteProject(projectToDelete) {
+    let allProjects = storage.retrieveProjectsData();
+
+    let currentProject = allProjects.find(
+      (project) => project.id === projectToDelete.id
+    );
+    allProjects.splice(allProjects.indexOf(currentProject), 1);
+
+    storage.save("projects", allProjects);
+    window.location.reload();
+  }
+
   displayProjectDetails(projectId) {
     let appContainer = document.querySelector(".app-container");
     let workspace = document.querySelector(".work-space");

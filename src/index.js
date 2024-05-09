@@ -21,7 +21,7 @@ btn.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
     import("./modules/projects").then((Module) => {
       const projects = new Module.Projects();
-      projects.createNewProject(btn.value);
+      projects.createNewProject(btn);
     });
   }
 });
